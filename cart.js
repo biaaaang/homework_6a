@@ -9,7 +9,8 @@ function Course(number, name, section, instructor, day, time, waitlist, maxEnrol
     this.maxEnroll = maxEnroll;
     this.location = location;
 }
-var selected = [new Course("05430","Progamming Usable Interfaces", "A", "Hudson", "M", "10:10AM - 11:30AM", 0, 3, "PH 226A")]
+var selected = [new Course("05430","Progamming Usable Interfaces", "A", "Hudson", "M", "10:10AM - 11:30AM", 0, 3, "PH 226A"),
+new Course("53614","Introduction to Game Design", "A", "Hudson", "M", "10:10AM - 11:30AM", 0, 3, "PH 226A")]
 
 function onLoad() {
     document.getElementById("list_title").textContent =
