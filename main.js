@@ -1,5 +1,7 @@
 
-function PUI(section, instructor, day, time, waitlist, maxEnroll, location) {
+function Course(number, name, section, instructor, day, time, waitlist, maxEnroll, location) {
+    this.number = number;
+    this.name = name;
     this.section = section;
     this.instructor = instructor;
     this.day = day;
@@ -9,8 +11,8 @@ function PUI(section, instructor, day, time, waitlist, maxEnroll, location) {
     this.location = location;
 }
 
-var courses = [new PUI("A", "Hudson", "M", "10:10AM - 11:30AM", 0, 3, "PH 226A"),
-               new PUI("B", "Hudson", "W", "10:10AM - 11:30AM", 0, 3, "WEH 5415")]
+var courses = [new Course("05430","Progamming Usable Interfaces", "A", "Hudson", "M", "10:10AM - 11:30AM", 0, 3, "PH 226A"),
+               new Course("05430","Progamming Usable Interfaces", "B", "Hudson", "W", "10:10AM - 11:30AM", 0, 3, "WEH 5415")]
 
 selected = [];
 
@@ -34,7 +36,7 @@ function onLoad() {
         }
         else {
             allContent = allContent + '<td>Available</td> \
-            <td class="operation register" id="'+ i + '">Registered</td>';
+            <td class="operation register" id="'+ i + '">Register</td>';
         }
         newRow.innerHTML = allContent;  
     }
@@ -48,10 +50,45 @@ function onLoad() {
     for (const register of registers) {
         register.addEventListener("click", function() {
             let index = register.id;
-            selected.push(courses[index]);
-            register.style.display = "none";
+
+            // if click Register
+            if (register.textContent === "Register") {
+                selected.push(courses[index]);
+                for (const register2 of registers) {
+                    if (register2.id === register.id) {
+                        console.log(register2.id);
+                        register2.textContent = "Drop";
+                    }
+                    else {
+                        register2.textContent = "Switch";
+                    }
+                }    
+            }
+
+            // if click Drop
+            else if (register.textContent === "Drop") {
+                selected.pop();
+                for (const register2 of registers) {
+                        register2.textContent = "Register";
+                    }
+                }
+
+            // if click Switch
+            else if (register.textContent === "Switch") {
+                selected.pop();
+                selected.push(courses[index]);
+                for (const register2 of registers) {
+                    if (register2.id === register.id) {
+                        register2.textContent = "Drop";
+                    }
+                    else {
+                        register2.textContent = "Switch";
+                    }
+                }    
+            }
             document.getElementById("schedule_link").textContent
-                    = "My course schedule(" + selected.length + ")";
+                        = "My course schedule(" + selected.length + ")";
+           
         });
     }
     
